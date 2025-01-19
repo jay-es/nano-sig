@@ -1,3 +1,4 @@
+import { effect } from "./effect.ts";
 import { type Listener, type Signal, signal } from "./signal.ts";
 
 export type Computed<T> = {
@@ -11,11 +12,7 @@ export function computed<T>(
 ): Computed<T> {
   const value = signal(fn());
 
-  for (const signal of signals) {
-    signal.subscribe(() => {
-      value.set(fn());
-    });
-  }
+  effect(() => value.set(fn()), signals);
 
   return {
     get: value.get,

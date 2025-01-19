@@ -1,4 +1,4 @@
-type Listener = () => unknown;
+export type Listener = () => unknown;
 
 export type Signal<T> = {
   get(): T;
